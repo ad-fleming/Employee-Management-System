@@ -4,7 +4,8 @@
   "description": "# Unit 12 MySQL Homework: Employee Tracker",
   "main": "ems.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "nodemon ems.js"
   },
   "repository": {
     "type": "git",
@@ -19,6 +20,7 @@
   "homepage": "https://github.com/ad-fleming/Employee-Management-System#readme",
   "dependencies": {
     "inquirer": "^7.3.3",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "nodemon": "^2.0.4"
   }
 }

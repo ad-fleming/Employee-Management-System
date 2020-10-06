@@ -9,13 +9,15 @@ const connection = mysql.createConnection({
     port: 3306,
     user:"root",
     password: "password", 
-    database: "ems_DB"
+    database: "employee_managementDB"
 });
 
 
-connection.connect(function(err){
-    if(err) throw err;
-    console.log("connected as ID" + connection.threadId + "\n")
-    prompt.addEmployee();
-})
+// connection.connect(function(err){
+//     if(err) throw err;
+//     console.log("connected as ID" + connection.threadId + "\n")
+//     prompt.init();
+// })
 
+
+module.exports = {connection};
