@@ -22,24 +22,20 @@ const prompt = {
                 name: "initialAction",
                 type: "list",
                 message: "What would you like to do?",
-                choices: ["View All Employees", "View All Employees By Department", "View All Employees By Manager",
-                "Add Employee", "Remove Employee", "Update Employee Role", "Update Employee Manager"]
+                choices: ["View All Employees", "View All Employees By Department",
+                "Add Employee", "Remove Employee", "Update Employee Role"]
             }
         ]).then(({initialAction})=>{
             if(initialAction === "View All Employees"){
                 this.displayEmployees();
             }else if (initialAction === "View All Employees By Department"){
                 this.displayEmployeesByDept();
-            }else if (initialAction === "View All Employees By Manager"){
-                this.displayEmployeesByManager();
             }else if(initialAction === "Add Employee"){
                 this.addEmployee()
             }else if (initialAction === "Remove Employee"){
                 this.removeEmployee();
             }else if (initialAction === "Update Employee Role"){
                 this.updateRole();
-            }else if (initialAction === "Update Employee Manager"){
-                this.updateManager();
             }
         })
     },
@@ -56,12 +52,7 @@ const prompt = {
         connection.query(
             ""
         )
-        
-    },
-    displayEmployeesByManager: function(){
-        console.log("I display employees by manager")
-    },
-    addEmployee: function(){
+    },addEmployee: function(){
         console.log("hello");
         connection.query(
             "SELECT * FROM role", (err, data) => {
@@ -121,7 +112,7 @@ const prompt = {
             }
         ]).then(({firstNameToRemove, lastNameToRemove})=>{
             connection.query(
-                "Delete from employees where?",
+                "Delete from employee where?",
                 [
                     {
                         first_name: firstNameToRemove
@@ -130,16 +121,59 @@ const prompt = {
                         last_name: lastNameToRemove
                     }
                 ],
-                function(err,data){
+                (err,data)=>{
                     if(err) throw err
-                    prompt.displayEmployees();
+                    this.displayEmployees();
                 }
             )
         })
     },
     updateRole: function(){
-        console.log("newRole");
-    },
+        connection.query(
+            "SELECT * FROM role", (err, data) => {
+                const roleArray = data.map(role => role.title)
+                console.log(roleArray + "Line 135")
+                inquirer.prompt([
+                    {
+                        name: "firstName",
+                        type: "input",
+                        message: "Please enter employee first name"
+                    }, 
+                    {
+                        name: "lastName",
+                        type: "input",
+                        message: "Please enter employee last name"
+                    }, 
+                    {
+                        name: "role",
+                        type: "list",
+                        message: "Please enter new employee role",
+                        choices: roleArray
+                    }, 
+        
+                ]).then(({firstName, lastName, role})=>{
+                    const selectedRole = data.find(roleObject => roleObject.title === role)
+                    connection.query(
+                        "UPDATE employee SET ? WHERE ? AND ? ", [
+                            {
+                                role_id: selectedRole.id,      
+                            },
+                            {
+                                first_name: firstName
+                            },
+                            {
+                                last_name: lastName
+                            }
+                        ],
+                        (err, data)=>{
+                            if(err) throw err
+                            this.displayEmployees();
+                        } 
+                    )
+                })
+            },
+        )
+    }
 }
 
 module.exports = prompt;
