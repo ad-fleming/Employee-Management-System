@@ -4,7 +4,7 @@
   # Employee-Management-System 
   
   ## Description
-  This project replicates a simple Employee Management System by linking a SQL Database to a Node CLI application. Using the npm Inquirer package the app takes user inputs to query the database and dynamically render results to the console. 
+  This project replicates a simple Employee Management System by linking a SQL Database to a Node CLI application. Using the npm Inquirer package, this application records user inputs in order to query the a SQL database and dynamically render results to the console. 
 
   ## Table of Contents
   * [Installation](#Installation)
@@ -15,7 +15,7 @@
   * [Questions](#Questions)
   
   ## Installation
-  To install, run npm install. Once finished, you should see node modules, and a package-lock.json in the directory which contain the dependencies listed in the package.json file.
+  To install, run _npm install_. Once finished, you should see node modules, and a package-lock.json in the directory which contain the dependencies listed in the package.json file.
   
   ## Usage
   To start the program, type `node ems.js`. This will bring up the first prompt. From select an option from the list and continue to follow the prompts.
