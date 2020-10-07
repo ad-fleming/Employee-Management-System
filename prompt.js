@@ -24,7 +24,7 @@ const prompt = {
                 message: "What would you like to do?",
                 choices: ["View All Employees", "View All Employees By Department", "View All Employees By Role",
                 "Add Employee", "Remove Employee", "Update Employee Role", "Add Role", "Delete Role",
-                "Add Department"]
+                "Add Department", "Delete Department"]
             }
         ]).then(({initialAction})=>{
             if(initialAction === "View All Employees"){
@@ -45,6 +45,8 @@ const prompt = {
                 this.addDepartment();
             }else if (initialAction === "View All Employees By Role"){
                 this.displayEmployeesByRole();
+            }else if (initialAction === "Delete Department"){
+                this.deleteDepartment();
             }
         })
     },
@@ -333,6 +335,39 @@ const prompt = {
                     }
             )
         })
+    },
+    deleteDepartment(){
+        connection.query(
+            "SELECT * FROM department", (err, data) => {
+                const departmentArray = data.map(department => department.name)
+                console.log(departmentArray + "Line 341")
+                inquirer.prompt([
+                    {
+                        name: "department",
+                        type: "list",
+                        message: "Please enter department to delete",
+                        choices: departmentArray
+                    }, 
+        
+                ]).then(({department})=>{
+                    const selectedDepartment = data.find(departmentObject => departmentObject.name === department)
+                    connection.query(
+                        "UPDATE department SET ? WHERE ?", [
+                            {
+                                name: 'null',      
+                            },
+                            {
+                                name: selectedDepartment.name
+                            }
+                        ],
+                        (err, data)=>{
+                            if(err) throw err
+                            this.displayEmployees();
+                        } 
+                    )
+                })
+            },
+        )
     },
 }
 
