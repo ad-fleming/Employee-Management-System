@@ -23,7 +23,8 @@ const prompt = {
                 type: "list",
                 message: "What would you like to do?",
                 choices: ["View All Employees", "View All Employees By Department",
-                "Add Employee", "Remove Employee", "Update Employee Role", "Add Role", "Delete Role"]
+                "Add Employee", "Remove Employee", "Update Employee Role", "Add Role", "Delete Role",
+                "Add Department"]
             }
         ]).then(({initialAction})=>{
             if(initialAction === "View All Employees"){
@@ -40,6 +41,8 @@ const prompt = {
                 this.addRole();
             }else if (initialAction === "Delete Role"){
                 this.deleteRole();
+            }else if (initialAction === "Add Department"){
+                this.addDepartment();
             }
         })
     },
@@ -263,7 +266,7 @@ const prompt = {
                     connection.query(
                         "UPDATE role SET ? WHERE ?", [
                             {
-                                title: null,      
+                                title: 'null',      
                             },
                             {
                                 title: selectedRole.title
@@ -277,7 +280,28 @@ const prompt = {
                 })
             },
         )
-    }
+    },
+    addDepartment: function(){
+        inquirer.prompt([
+            {
+                name: "department",
+                message: "What department would you like to add?",
+                type: "input"
+            }
+        ]). then (({department})=>{
+            connection.query(
+                "INSERT into department SET?", 
+                    {
+                        name: department,      
+                    }, 
+                    (err, data) => {
+                        if (err) throw err;
+                        console.table(data);
+                        this.displayEmployees();
+                    }
+            )
+        })
+    },
 }
 
 module.exports = prompt;
