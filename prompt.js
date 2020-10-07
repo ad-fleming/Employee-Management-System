@@ -50,7 +50,30 @@ const prompt = {
     displayEmployeesByDept: function(){
         console.log("I display employees by Dept")
         connection.query(
-            ""
+            "SELECT * FROM department", (err, data) => {
+                const departmentArray = data.map(department => department.name)
+                console.log(departmentArray + " Line 55")
+                inquirer.prompt([
+                    {
+                        name: "departmentSearch",
+                        type: "list",
+                        message: "Which department would you like to search?",
+                        choices: departmentArray
+                    }
+                ]).then(({departmentSearch})=>{
+                    connection.query(
+                        `SELECT first_name, last_name,title, salary, name 
+                        FROM employee
+                        INNER JOIN role ON employee.role_id = role.id
+                        INNER JOIN department ON role.department_id = department.id
+                        WHERE name = "${departmentSearch}";`,
+                        (err,data) =>{
+                            if(err) throw err
+                            console.table(data)
+                        }
+                    ) 
+                })
+            }
         )
     },addEmployee: function(){
         console.log("hello");
