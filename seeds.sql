@@ -9,6 +9,7 @@ id int auto_increment,
 name varchar(30) not null,
 primary key (id)
 );
+
 insert into department(name)
 values("Sales"),( "Engineering"),("Finance"),("Legal");
 
@@ -20,8 +21,8 @@ title varchar(30),
 salary decimal (8,2),
 department_id int not null,
 primary key (id)
-
 );
+
 insert into role (title, salary, department_id)
 values("Sales Person", 80000, 1),("Sales Lead", 100000, 1),("Software Engineer", 120000, 2),("Lead Engineer", 150000, 2),("Accountant", 125000, 3),("Lawyer", 190000, 3),("Legal Team Lead", 250000, 3);
 -- select * from role;
@@ -34,7 +35,8 @@ create table employee (
     first_name varchar(30),
     last_name varchar(30),
     role_id int,
-	manager_id int
+	manager_id int,
+    primary key (id)
     
 );
 
@@ -46,7 +48,10 @@ values("John", "Doe", 2),("Mike", "Chan", 1),("Ashley", "Rodriguez", 4),("Kevin"
 -- SELECT first_name, last_name,title, salary, name 
 -- FROM employee
 -- INNER JOIN role ON employee.role_id = role.id
--- INNER JOIN department ON role.department_id = department.id;
+-- INNER JOIN department ON role.department_id = department.id
+-- WHERE name = "Sales";
+
+
 
 -- create table manager(
 -- id int auto_increment,

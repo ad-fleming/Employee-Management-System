@@ -23,7 +23,7 @@ const prompt = {
                 type: "list",
                 message: "What would you like to do?",
                 choices: ["View All Employees", "View All Employees By Department",
-                "Add Employee", "Remove Employee", "Update Employee Role"]
+                "Add Employee", "Remove Employee", "Update Employee Role", "Add Role"]
             }
         ]).then(({initialAction})=>{
             if(initialAction === "View All Employees"){
@@ -36,15 +36,18 @@ const prompt = {
                 this.removeEmployee();
             }else if (initialAction === "Update Employee Role"){
                 this.updateRole();
+            }else if (initialAction === "Add Role"){
+                this.addRole();
             }
         })
     },
     displayEmployees: function(){
         console.log("I display the employee table");
-        connection.query("SELECT first_name, last_name,title, salary, name FROM employee INNER JOIN role ON employee.role_id = role.id INNER JOIN department ON role.department_id = department.id;", (err, data)=>{
+        connection.query("SELECT first_name, last_name,title, salary, name FROM employee INNER JOIN role ON employee.role_id = role.id INNER JOIN department ON role.department_id = department.id;", 
+        (err, data)=>{
             if(err) throw err;
             console.table(data)
-            
+            this.init();
         })
     },
     displayEmployeesByDept: function(){
@@ -70,12 +73,14 @@ const prompt = {
                         (err,data) =>{
                             if(err) throw err
                             console.table(data)
+                            this.init();
                         }
                     ) 
                 })
             }
         )
-    },addEmployee: function(){
+    },
+    addEmployee: function(){
         console.log("hello");
         connection.query(
             "SELECT * FROM role", (err, data) => {
@@ -112,13 +117,11 @@ const prompt = {
                             if (err) throw err;
                             console.table(data);
                             this.displayEmployees();
-                            
                         }
                     )
                 })
             }
-        )
-        
+        ) 
     }, 
     removeEmployee: function(){
         console.log("bye, bye")
@@ -150,6 +153,48 @@ const prompt = {
                 }
             )
         })
+    },
+    addRole: function(){
+        connection.query(
+            "SELECT * FROM department", (err, data) => {
+                const departmentArray = data.map(department => department.name)
+                console.log(departmentArray + "Line 160")
+                inquirer.prompt([
+                    {
+                        name: "departmentChoice",
+                        type: "list",
+                        message: "To what department does this role belong?",
+                        choices: departmentArray
+                    }, 
+                    {
+                        name: "roleName",
+                        type: "input",
+                        message: "Please enter role name"
+                    }, 
+                    {
+                        name: "salary",
+                        type: "input",
+                        message: "Please enter salary",
+                    }, 
+        
+                ]).then(({departmentChoice, roleName, salary})=>{
+                    const selectedDepartment = data.find(departmentObject => departmentObject.name === departmentChoice)
+                    console.log(selectedDepartment);
+                    connection.query(
+                        "INSERT into role SET?", 
+                        {
+                            title: roleName, 
+                            salary: parseInt(salary),
+                            department_id: selectedDepartment.id,      
+                        }, 
+                        (err, data) => {
+                            if (err) throw err;
+                            console.table(data);
+                        }
+                    )
+                })
+            }
+        )
     },
     updateRole: function(){
         connection.query(
@@ -196,7 +241,7 @@ const prompt = {
                 })
             },
         )
-    }
+    },
 }
 
 module.exports = prompt;
