@@ -23,7 +23,7 @@ const prompt = {
                 type: "list",
                 message: "What would you like to do?",
                 choices: ["View All Employees", "View All Employees By Department",
-                "Add Employee", "Remove Employee", "Update Employee Role", "Add Role"]
+                "Add Employee", "Remove Employee", "Update Employee Role", "Add Role", "Delete Role"]
             }
         ]).then(({initialAction})=>{
             if(initialAction === "View All Employees"){
@@ -38,6 +38,8 @@ const prompt = {
                 this.updateRole();
             }else if (initialAction === "Add Role"){
                 this.addRole();
+            }else if (initialAction === "Delete Role"){
+                this.deleteRole();
             }
         })
     },
@@ -243,6 +245,39 @@ const prompt = {
             },
         )
     },
+    deleteRole(){
+        connection.query(
+            "SELECT * FROM role", (err, data) => {
+                const roleArray = data.map(role => role.title)
+                console.log(roleArray + "Line 135")
+                inquirer.prompt([
+                    {
+                        name: "role",
+                        type: "list",
+                        message: "Please enter role to delete",
+                        choices: roleArray
+                    }, 
+        
+                ]).then(({role})=>{
+                    const selectedRole = data.find(roleObject => roleObject.title === role)
+                    connection.query(
+                        "UPDATE role SET ? WHERE ?", [
+                            {
+                                title: null,      
+                            },
+                            {
+                                title: selectedRole.title
+                            }
+                        ],
+                        (err, data)=>{
+                            if(err) throw err
+                            this.displayEmployees();
+                        } 
+                    )
+                })
+            },
+        )
+    }
 }
 
 module.exports = prompt;
