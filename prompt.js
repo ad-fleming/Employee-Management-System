@@ -22,7 +22,7 @@ const prompt = {
                 name: "initialAction",
                 type: "list",
                 message: "What would you like to do?",
-                choices: ["View All Employees", "View All Employees By Department",
+                choices: ["View All Employees", "View All Employees By Department", "View All Employees By Role",
                 "Add Employee", "Remove Employee", "Update Employee Role", "Add Role", "Delete Role",
                 "Add Department"]
             }
@@ -43,6 +43,8 @@ const prompt = {
                 this.deleteRole();
             }else if (initialAction === "Add Department"){
                 this.addDepartment();
+            }else if (initialAction === "View All Employees By Role"){
+                this.displayEmployeesByRole();
             }
         })
     },
@@ -246,6 +248,36 @@ const prompt = {
                     )
                 })
             },
+        )
+    },
+    displayEmployeesByRole: function(){
+        console.log("I display employees by Dept")
+        connection.query(
+            "SELECT * FROM role", (err, data) => {
+                const roleArray = data.map(role => role.title)
+                console.log(roleArray + " Line 256")
+                inquirer.prompt([
+                    {
+                        name: "roleSearch",
+                        type: "list",
+                        message: "Which role would you like to search?",
+                        choices: roleArray
+                    }
+                ]).then(({roleSearch})=>{
+                    connection.query(
+                        `SELECT first_name, last_name,title, salary, name 
+                        FROM employee
+                        INNER JOIN role ON employee.role_id = role.id
+                        INNER JOIN department ON role.department_id = department.id
+                        WHERE title = "${roleSearch}";`,
+                        (err,data) =>{
+                            if(err) throw err
+                            console.table(data)
+                            this.init();
+                        }
+                    ) 
+                })
+            }
         )
     },
     deleteRole(){
