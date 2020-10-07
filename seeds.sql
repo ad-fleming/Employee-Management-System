@@ -21,6 +21,7 @@ title varchar(30),
 salary decimal (8,2),
 department_id int not null,
 primary key (id)
+
 );
 
 insert into role (title, salary, department_id)
@@ -34,7 +35,7 @@ create table employee (
 	id integer auto_increment not null,
     first_name varchar(30),
     last_name varchar(30),
-    role_id int,
+    role_id int default null,
 	manager_id int,
     primary key (id)
     

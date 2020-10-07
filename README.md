@@ -20,8 +20,8 @@
   ## Usage
   To start the program, type `node ems.js`. This will bring up the first prompt. From select an option from the list and continue to follow the prompts.
 
-  ## Contributing
-  No need
+  ## Contributors
+  This project was completed with the guidance of my tutor and in collaboration with my fellow students at the Georgia Tech Coding Bootcamp
 
   ## Tests
   No tests available at this time
@@ -32,7 +32,14 @@
   _You can learn more about this project's license <a href="https://choosealicense.com/licenses/mit/">here</a>_
   
 
-  ## Questions
-  If you have any questions, feel free to reach out to me at the following:
-  * Email: 
-  * GitHub: ad-fleming
+  ## Links
+  <hr>
+  
+#### Repository
+https://github.com/ad-fleming/Employee-Management-System
+
+#### Video Link
+https://drive.google.com/file/d/1OBZmkwO4I9u2UbMbTMlU_KtGCafHwKqe/view
+
+
+
