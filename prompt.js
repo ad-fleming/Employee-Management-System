@@ -190,6 +190,7 @@ const prompt = {
                         (err, data) => {
                             if (err) throw err;
                             console.table(data);
+                            this.displayEmployees();
                         }
                     )
                 })
