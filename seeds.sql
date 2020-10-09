@@ -25,7 +25,7 @@ primary key (id)
 );
 
 insert into role (title, salary, department_id)
-values("Sales Person", 80000, 1),("Sales Lead", 100000, 1),("Software Engineer", 120000, 2),("Lead Engineer", 150000, 2),("Accountant", 125000, 3),("Lawyer", 190000, 3),("Legal Team Lead", 250000, 3);
+values("Sales Person", 80000, 1),("Sales Lead", 100000, 1),("Software Engineer", 120000, 2),("Lead Engineer", 150000, 2),("Accountant", 125000, 3),("Lawyer", 190000, 4),("Legal Team Lead", 250000, 4);
 -- select * from role;
 
 
