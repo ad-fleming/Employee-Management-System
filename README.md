@@ -15,7 +15,7 @@
   * [Questions](#Questions)
   
   ## Installation
-  To install, run _npm install_. Once finished, you should see node modules, and a package-lock.json in the directory which contain the dependencies listed in the package.json file.
+  To install, run _npm install_. Once finished, you should see node modules, and a package-lock.json in the directory which contain the dependencies listed in the package.json file. Once completed, follow the __Usage__ section below.
   
   ## Usage
   To start the program, type `node ems.js`. This will bring up the first prompt. From select an option from the list and continue to follow the prompts.
